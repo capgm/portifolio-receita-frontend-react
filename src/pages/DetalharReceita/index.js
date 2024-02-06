@@ -22,7 +22,7 @@ export default function DetalharReceita({ match }) {
       setIdReceita(idReceita);
 
       await axios
-        .get("http://localhost:8080/receita/" + idReceita)
+        .get("https://receita-back.onrender.com/receita/" + idReceita)
         .then((receita) => {
           console.log(receita);
           if (receita) {

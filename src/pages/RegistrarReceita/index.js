@@ -100,7 +100,7 @@ export default function Receita() {
     console.log(idReceita);
 
     await axios
-      .put("http://localhost:8080/receitas/" + idReceita, objAlteracao)
+      .put("https://receita-back.onrender.com/receitas/" + idReceita, objAlteracao)
       .then(() => {
         const lista = receitas;
 
@@ -120,7 +120,7 @@ export default function Receita() {
     e.preventDefault();
 
     await axios
-      .delete("http://localhost:8080/receitas/" + receita._id)
+      .delete("https://receita-back.onrender.com/receitas/" + receita._id)
       .then(() => {
         const lista = receitas.filter((objeto) => {
           return (

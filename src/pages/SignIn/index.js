@@ -34,7 +34,7 @@ export default function SignIn() {
 
     navigate("/")
 
-    await axios.post("http://localhost:8080/signin",objSignin).then((resposta)=>{
+    await axios.post("https://receita-back.onrender.com/signin",objSignin).then((resposta)=>{
         console.log(resposta);
     }).catch((erro)=>{
         console.log(erro)
@@ -50,7 +50,7 @@ export default function SignIn() {
       senha: senha,
     };
 
-  await axios.post("http://localhost:8080/signin",objSignin).then((user)=>{
+  await axios.post("https://receita-back.onrender.com/signin",objSignin).then((user)=>{
         localStorage.setItem("@UserContext", JSON.stringify(user.data));
         toast.success("Bem-vindo(a) de volta!")
         navigate("/")
