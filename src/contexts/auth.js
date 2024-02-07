@@ -31,7 +31,7 @@ export default function UserProvider({ children }) {
       senha: password,
     };
 
-    await axios.post("https://receita-back.onrender.com/signin",objSignin).then((user)=>{
+    await axios.post("https://receitas-back.netlify.app/signin",objSignin).then((user)=>{
 
         setUser(user.data)
         localStorage.setItem("@UserContext", JSON.stringify(user.data));
@@ -55,7 +55,7 @@ export default function UserProvider({ children }) {
     };
 
     await axios
-      .post("https://receita-back.onrender.com/signup", usuario)
+      .post("https://receitas-back.netlify.app/signup", usuario)
       .then((resposta) => {
         setUser(resposta.data)
         storageUser(resposta.data);
