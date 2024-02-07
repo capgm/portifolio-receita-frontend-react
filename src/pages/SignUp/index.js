@@ -1,5 +1,4 @@
 import { useState } from "react";
-import GoogleLogin from "react-google-login";
 import axios from "axios";
 
 export default function SignUp() {
@@ -103,12 +102,6 @@ export default function SignUp() {
           />
 
           <button onClick={(e) => registrar(e)}>Registar</button>
-          <GoogleLogin
-            clientId="723612424564-oh5q10rruh7eldiri4jdh2chs49s0c26.apps.googleusercontent.com"
-            buttonText="Registar com o Google"
-            onSuccess={resposeGoogle}
-            onFailure={failure}
-          />
         </form>
       </div>
     </>

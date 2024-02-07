@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import GoogleLogin from "react-google-login";
 import "./signin.css";
 import { toast } from "react-toastify";
 
@@ -92,13 +91,6 @@ export default function SignIn() {
           Entrar
         </button>
         <br/>
-        <GoogleLogin 
-          clientId="723612424564-oh5q10rruh7eldiri4jdh2chs49s0c26.apps.googleusercontent.com"
-          buttonText="Continuar com o Google"
-          onSuccess={resposeGoogle}
-          onFailure={resposeGoogleFailure}
-          cookiePolicy={'single_host_origin'}
-        />
       </form>
     </div>
   );
