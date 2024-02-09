@@ -22,7 +22,7 @@ export default function DetalharReceita({ match }) {
       setIdReceita(idReceita);
 
       await axios
-        .get("https://receitas-back.netlify.app/receita/" + idReceita)
+        .get("http://receitas-back-lzdb.onrender.com/receita/" + idReceita)
         .then((receita) => {
           console.log(receita);
           if (receita) {

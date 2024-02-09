@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     async function carregarCategorias() {
       axios
-        .get("https://receitas-back.netlify.app/categorias")
+        .get("http://receitas-back-lzdb.onrender.com/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -31,7 +31,7 @@ export default function Home() {
   async function buscar(e) {
     e.preventDefault();
     await axios
-      .get("https://receitas-back.netlify.app/receitas/consulta/" + categoria)
+      .get("http://receitas-back-lzdb.onrender.com/receitas/consulta/" + categoria)
       .then((receitas) => {
         if (receitas.data.length > 0) {
           setRespostaConsulta(receitas.data);

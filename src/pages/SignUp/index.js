@@ -24,7 +24,7 @@ export default function SignUp() {
     };
 
     await axios
-      .post("https://receitas-back.netlify.app/signup", usuario)
+      .post("http://receitas-back-lzdb.onrender.com/signup", usuario)
       .then((resposta) => {
         console(resposta);
       })
@@ -44,7 +44,7 @@ export default function SignUp() {
     };
 
     await axios
-      .post("https://receitas-back.netlify.app/signup", usuario)
+      .post("http://receitas-back-lzdb.onrender.com/signup", usuario)
       .then((resposta) => {
         console(resposta);
       })

@@ -33,7 +33,7 @@ export default function SignIn() {
 
     navigate("/")
 
-    await axios.post("https://receitas-back.netlify.app/signin",objSignin).then((resposta)=>{
+    await axios.post("http://receitas-back-lzdb.onrender.com/signin",objSignin).then((resposta)=>{
         console.log(resposta);
     }).catch((erro)=>{
         console.log(erro)
@@ -49,7 +49,7 @@ export default function SignIn() {
       senha: senha,
     };
 
-  await axios.post("https://receitas-back.netlify.app/signin",objSignin).then((user)=>{
+  await axios.post("http://receitas-back-lzdb.onrender.com/signin",objSignin).then((user)=>{
         localStorage.setItem("@UserContext", JSON.stringify(user.data));
         toast.success("Bem-vindo(a) de volta!")
         navigate("/")
