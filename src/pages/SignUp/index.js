@@ -46,7 +46,7 @@ export default function SignUp() {
     await axios
       .post("http://receitas-back-lzdb.onrender.com/signup", usuario)
       .then((resposta) => {
-        console(resposta);
+        console.log(resposta);
       })
       .catch((erro) => {
         console.log(erro);
