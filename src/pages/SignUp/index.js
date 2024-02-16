@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [nome, setNome] = useState();
@@ -24,9 +25,9 @@ export default function SignUp() {
     };
 
     await axios
-      .post("http://receitas-back-lzdb.onrender.com/signup", usuario)
+      .post("https://receitas-back-lzdb.onrender.com/signup", usuario)
       .then((resposta) => {
-        console(resposta);
+        console.log(resposta);
       })
       .catch((erro) => {
         console.log(erro);
@@ -44,11 +45,14 @@ export default function SignUp() {
     };
 
     await axios
-      .post("http://receitas-back-lzdb.onrender.com/signup", usuario)
+      .post("https://receitas-back-lzdb.onrender.com/signup", usuario)
+      //.post("http://localhost:8080/signup", usuario)
       .then((resposta) => {
+        toast.success("Usuário cadastrado!")
         console.log(resposta);
       })
       .catch((erro) => {
+        toast.error("Ocorreu algum erro!")
         console.log(erro);
       });
   }
