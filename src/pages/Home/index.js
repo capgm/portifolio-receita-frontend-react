@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     async function carregarCategorias() {
       axios
-        .get("http://receitas-back-lzdb.onrender.com/categorias")
+        .get("http://receitas-back-lzdb.onrender.com:10000/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -48,7 +48,7 @@ export default function Home() {
     <div>
       <header>
         <h1>Site de Receitas</h1>
-        <div class="search-container">
+        <div className="search-container">
           <input
             type="text"
             id="searchInput"
