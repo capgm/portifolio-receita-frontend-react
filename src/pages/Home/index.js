@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     async function carregarCategorias() {
       axios
-        .get("http://receitas-back-lzdb.onrender.com:10000/categorias")
+        .get("http://receitas-back-lzdb.onrender.com/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -83,7 +83,7 @@ export default function Home() {
                   <Link
                     to={`/detalhar-receita/${encodeURIComponent(receitas._id)}`}
                   >
-                    <div class="grid-item">{receitas.nome}</div>
+                    <div className="grid-item">{receitas.nome}</div>
                   </Link>
                 </section>
               );

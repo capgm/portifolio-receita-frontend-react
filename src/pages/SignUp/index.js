@@ -61,7 +61,7 @@ export default function SignUp() {
     <>
       <div className="login-container">
         <form className="login-form">
-          <label for="name">Nome:</label>
+          <label name="">Nome:</label>
           <input
             type="text"
             id="name"
@@ -72,7 +72,7 @@ export default function SignUp() {
             required
           />
 
-          <label for="email">Email:</label>
+          <label name="">Email:</label>
           <input
             type="email"
             id="email"
@@ -83,7 +83,7 @@ export default function SignUp() {
             required
           />
 
-          <label for="senha">Senha:</label>
+          <label name="">Senha:</label>
           <input
             type="password"
             id="senha"
@@ -94,7 +94,7 @@ export default function SignUp() {
             required
           />
 
-          <label for="senha">Digite a senha novamente:</label>
+          <label name="">Digite a senha novamente:</label>
           <input
             type="password"
             id="senhavalidacao"
