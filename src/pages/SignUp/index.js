@@ -25,7 +25,7 @@ export default function SignUp() {
     };
 
     await axios
-      .post("https://receitas-back-lzdb.onrender.com/signup", usuario)
+      .post("https://localhost:8080/signup", usuario)
       .then((resposta) => {
         console.log(resposta);
       })
@@ -45,7 +45,7 @@ export default function SignUp() {
     };
 
     await axios
-      .post("https://receitas-back-lzdb.onrender.com/signup", usuario)
+      .post("https://localhost:8080/signup", usuario)
       //.post("http://localhost:8080/signup", usuario)
       .then((resposta) => {
         toast.success("Usuário cadastrado!")

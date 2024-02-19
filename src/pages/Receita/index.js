@@ -15,7 +15,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarReceitas() {
       await axios
-        .get("http://receitas-back-lzdb.onrender.com/receitas")
+        .get("https://localhost:8080/receitas")
         .then((receitas) => {
           if (receitas.data.length > 0) {
             setReceitas(receitas.data);
@@ -34,7 +34,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarCategorias() {
       await axios
-        .get("http://receitas-back-lzdb.onrender.com/categorias")
+        .get("https://localhost:8080/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -61,7 +61,7 @@ export default function Receita() {
     console.log(categoria);
 
     await axios
-      .post("http://receitas-back-lzdb.onrender.com/receitas", objInclusao)
+      .post("https://localhost:8080/receitas", objInclusao)
       .then(() => {
         receitas.push(objInclusao);
         setCategoria("");
@@ -96,7 +96,7 @@ export default function Receita() {
     console.log(idReceita);
 
     await axios
-      .put("http://receitas-back-lzdb.onrender.com/receitas/" + idReceita, objAlteracao)
+      .put("https://localhost:8080/receitas/" + idReceita, objAlteracao)
       .then(() => {
         const lista = receitas;
 
@@ -117,7 +117,7 @@ export default function Receita() {
     e.preventDefault();
 
     await axios
-      .delete("http://receitas-back-lzdb.onrender.com/receitas/" + receita._id)
+      .delete("https://localhost:8080/receitas/" + receita._id)
       .then(() => {
         const lista = receitas.filter((objeto) => {
           return (
