@@ -16,7 +16,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarReceitas() {
       await axios
-        .get("https://localhost:8080/receitas")
+        .get("http://localhost:8080/receitas")
         .then((receitas) => {
           if (receitas.data.length > 0) {
             setReceitas(receitas.data);
@@ -35,7 +35,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarCategorias() {
       await axios
-        .get("https://localhost:8080/categorias")
+        .get("http://localhost:8080/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -63,7 +63,7 @@ export default function Receita() {
     console.log(objInclusao);
 
     await axios
-      .post("https://localhost:8080/receitas", objInclusao)
+      .post("http://localhost:8080/receitas", objInclusao)
       .then(() => {
         receitas.push(objInclusao);
         setNome("");
@@ -100,7 +100,7 @@ export default function Receita() {
     console.log(idReceita);
 
     await axios
-      .put("https://localhost:8080/receitas/" + idReceita, objAlteracao)
+      .put("http://localhost:8080/receitas/" + idReceita, objAlteracao)
       .then(() => {
         const lista = receitas;
 
@@ -120,7 +120,7 @@ export default function Receita() {
     e.preventDefault();
 
     await axios
-      .delete("https://localhost:8080/receitas/" + receita._id)
+      .delete("http://localhost:8080/receitas/" + receita._id)
       .then(() => {
         const lista = receitas.filter((objeto) => {
           return (

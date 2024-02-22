@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import "./receita.css";
 import axios from "axios";
+import {toast} from "react-toastify"
+
 
 export default function Receita() {
   const [idReceita, setIdReceita] = useState();
+  const [idUsuario, setIdUsuario] = useState();
+  const [nome, setNome] = useState();
   const [categoria, setCategoria] = useState();
+  const [idCategoria, setIdCategoria] = useState();
   const [ingredientes, setIngredientes] = useState();
   const [modoPreparo, setModoPreparo] = useState();
   const [receitas, setReceitas] = useState([]);
@@ -15,7 +20,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarReceitas() {
       await axios
-        .get("https://localhost:8080/receitas")
+        .get("http://localhost:8080/receitas")
         .then((receitas) => {
           if (receitas.data.length > 0) {
             setReceitas(receitas.data);
@@ -34,7 +39,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarCategorias() {
       await axios
-        .get("https://localhost:8080/categorias")
+        .get("http://localhost:8080/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -52,22 +57,22 @@ export default function Receita() {
 
   async function incluir() {
     const objInclusao = {
-      categoria: categoria,
+      nome : nome,
+      id_categoria: categoria,
       ingredientes: ingredientes,
       modoPreparo: modoPreparo,
-      id: idReceita,
+      id_usuario: idUsuario,
     };
 
-    console.log(categoria);
-
     await axios
-      .post("https://localhost:8080/receitas", objInclusao)
+      .post("http://localhost:8080/receitas", objInclusao)
       .then(() => {
         receitas.push(objInclusao);
         setCategoria("");
         setIngredientes("");
         setModoPreparo("");
         setReceitas(receitas);
+        toast.success("Receita incluida com sucesso");
       })
       .catch((erro) => {
         console.log(erro);
@@ -76,7 +81,7 @@ export default function Receita() {
 
   function edit(receita, index, e) {
     e.preventDefault();
-    setCategoria(receita.categoria);
+    setCategoria(receita._id);
     setIngredientes(receita.ingredientes);
     setModoPreparo(receita.modoPreparo);
     setIdReceita(receita._id);
@@ -96,7 +101,7 @@ export default function Receita() {
     console.log(idReceita);
 
     await axios
-      .put("https://localhost:8080/receitas/" + idReceita, objAlteracao)
+      .put("http://localhost:8080/receitas/" + idReceita, objAlteracao)
       .then(() => {
         const lista = receitas;
 
@@ -117,7 +122,7 @@ export default function Receita() {
     e.preventDefault();
 
     await axios
-      .delete("https://localhost:8080/receitas/" + receita._id)
+      .delete("http://localhost:8080/receitas/" + receita._id)
       .then(() => {
         const lista = receitas.filter((objeto) => {
           return (
@@ -134,6 +139,7 @@ export default function Receita() {
   }
 
   function botaoVoltar(){
+    setNome("");
     setCategoria("");
     setIngredientes("");
     setModoPreparo("");
@@ -149,6 +155,16 @@ export default function Receita() {
 
       <main>
         <form id="recipeForm">
+
+        <label for="ingredientes">Nome:</label>
+          <input type="text"
+            id="nome"
+            name="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
+
           <label for="categoria">Categoria:</label>
           <select
             value={categoria}
@@ -159,7 +175,7 @@ export default function Receita() {
             <option value={-1}>Selecione uma categoria</option>
             {categorias.map((categoria, index) => {
               return (
-                <option key={index} value={categoria.categoria}>
+                <option key={index} value={categoria._id}>
                   {categoria.categoria}
                 </option>
               );

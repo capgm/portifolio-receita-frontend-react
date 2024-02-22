@@ -1,65 +1,25 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./signin.css";
-import { toast } from "react-toastify";
+import { UserContext } from '../../contexts/auth'
 
 export default function SignIn() {
   const [nome, setNome] = useState();
+  const [id, setID] = useState();
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [urlImagemProfile, setUrlImagemProfile] = useState();
+  const {login, user, setUser} = useContext(UserContext)
 
   const navigate = useNavigate();
 
-  const resposeGoogle = async (resposta) => {
-    
-    console.log(resposta)
-
-    const {
-      profileObj: { name, email, imageUrl },
-    } = resposta;
-    
-    console.log(resposta.profileObj)
-
-    setNome(name);
-    setEmail(email);
-    setUrlImagemProfile(imageUrl);
-
-    const objSignin = {
-      email: email,
-      senha: senha,
-    };
-
-    navigate("/")
-
-    await axios.post("https://localhost:8080/signin",objSignin).then((resposta)=>{
-        console.log(resposta);
-    }).catch((erro)=>{
-        console.log(erro)
-    });
-
-  };
-
-  async function logar(e) {
-    e.preventDefault()
-
-    const objSignin = {
-      email: email,
-      senha: senha,
-    };
-
-  await axios.post("https://localhost:8080/signin",objSignin).then((user)=>{
-        localStorage.setItem("@UserContext", JSON.stringify(user.data));
-        toast.success("Bem-vindo(a) de volta!")
-        navigate("/")
-    }).catch((erro)=>{
-        console.log(erro)
-    });
-  }
-
-  function resposeGoogleFailure(error) {
-    toast.error(error)
+  function logar(){
+    console.log("passou")
+    login({
+      email : email,
+      senha : senha
+    })
   }
 
   return (
@@ -87,10 +47,10 @@ export default function SignIn() {
           required
         />
 
-        <button onClick={(e) => logar(e)} type="submit">
+        <button onClick={() => logar()} type="submit">
           Entrar
         </button>
-        <br/>
+        <br />
       </form>
     </div>
   );

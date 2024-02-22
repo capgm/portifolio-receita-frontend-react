@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from '../../contexts/auth'
 
 export default function SignUp() {
   const [nome, setNome] = useState();
@@ -8,6 +10,9 @@ export default function SignUp() {
   const [senha, setSenha] = useState();
   const [senhaValidacao, setSenhaValidacao] = useState();
   const [urlImagemProfile, setUrlImagemProfile] = useState();
+  const {login} = useContext(UserContext)
+
+  const navigate = useNavigate();
 
   const resposeGoogle = async (resposta) => {
     const {
@@ -25,7 +30,7 @@ export default function SignUp() {
     };
 
     await axios
-      .post("https://localhost:8080/signup", usuario)
+      .post("http://localhost:8080/signup", usuario)
       .then((resposta) => {
         console.log(resposta);
       })
@@ -33,8 +38,6 @@ export default function SignUp() {
         console.log(erro);
       });
   };
-
-  function failure() {}
 
   async function registrar(e) {
     e.preventDefault();
@@ -45,11 +48,20 @@ export default function SignUp() {
     };
 
     await axios
-      .post("https://localhost:8080/signup", usuario)
+      .post("http://localhost:8080/signup", usuario)
       //.post("http://localhost:8080/signup", usuario)
       .then((resposta) => {
-        toast.success("Usuário cadastrado!")
-        console.log(resposta);
+
+        if(resposta.data.erro){
+          toast.error("Já existe um usuário cadastrado com esse e-mail!")
+        }else{
+          login({
+            email : email,
+            senha : senha
+          })
+          toast.success("Usuário cadastrado com sucesso!")
+          navigate("/")
+        }
       })
       .catch((erro) => {
         toast.error("Ocorreu algum erro!")

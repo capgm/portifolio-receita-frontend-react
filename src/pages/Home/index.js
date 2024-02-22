@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./home.css";
 import { Link } from "react-router-dom";
+import image from "../../imagens/imagem.png"
 
 export default function Home() {
   const [campoConsulta, setCampoConsulta] = useState();
@@ -12,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     async function carregarCategorias() {
       axios
-        .get("https://localhost:8080/categorias")
+        .get("http://localhost:8080/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -31,7 +32,7 @@ export default function Home() {
   async function buscar(e) {
     e.preventDefault();
     await axios
-      .get("https://localhost:8080/receitas/consulta/" + categoria)
+      .get("http://localhost:8080/receitas/consulta/" + categoria)
       .then((receitas) => {
         if (receitas.data.length > 0) {
           setRespostaConsulta(receitas.data);
@@ -45,9 +46,10 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <>
       <header>
-        <h1>Site de Receitas</h1>
+        <h1>Receitas da hora</h1>
+        <img className="imagem" src={image}/>
         <div className="search-container">
           <input
             type="text"
@@ -91,6 +93,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

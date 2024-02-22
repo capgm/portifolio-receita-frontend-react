@@ -5,6 +5,7 @@ import DetalharReceita from "../pages/DetalharReceita";
 import RegistrarReceita from "../pages/RegistrarReceita";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
+import Perfil from "../pages/Perfil";
 import Navbar from "../componentes/Navbar";
 
 export default function RouterApp() {
@@ -18,6 +19,7 @@ export default function RouterApp() {
         <Route exact path="/detalhar-receita/:id" Component={DetalharReceita} />
         <Route exact path="/signin" Component={SignIn} />
         <Route exact path="/signup" Component={SignUp} />
+        <Route exact path="/perfil" Component={Perfil} />
       </Routes>
     </>
   );
