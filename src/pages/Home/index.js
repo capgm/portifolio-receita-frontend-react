@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./home.css";
 import { Link } from "react-router-dom";
-import image from "../../imagens/imagem.png"
+import image from "../../imagens/imagem.png";
 
 export default function Home() {
   const [campoConsulta, setCampoConsulta] = useState();
@@ -47,35 +47,35 @@ export default function Home() {
 
   return (
     <>
-      <header>
-        <h1>Receitas da hora</h1>
-        <img className="imagem" src={image}/>
-        <div className="search-container">
-          <input
-            type="text"
-            id="searchInput"
-            value={campoConsulta}
-            onChange={(e) => setCampoConsulta(e.target.value)}
-            placeholder="Digite o nome da receita"
-          />
-          <select
-            value={categoria}
-            onChange={(e) => {
-              setCategoria(e.target.value);
-            }}
-          >
-            <option value={-1}>Selecione uma categoria</option>
-            {categorias.map((categoria, index) => {
-              return (
-                <option key={index} value={categoria.categoria}>
-                  {categoria.categoria}
-                </option>
-              );
-            })}
-          </select>
-          <button onClick={(e) => buscar(e)}>Buscar</button>
-        </div>
-      </header>
+    <div className="bloco-consulta">
+    <img className="imagem-principal" src={image} />
+      <div className="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          value={campoConsulta}
+          onChange={(e) => setCampoConsulta(e.target.value)}
+          placeholder="Digite o nome da receita"
+        />
+        <select
+          value={categoria}
+          onChange={(e) => {
+            setCategoria(e.target.value);
+          }}
+        >
+          <option value={-1}>Selecione uma categoria</option>
+          {categorias.map((categoria, index) => {
+            return (
+              <option key={index} value={categoria.categoria}>
+                {categoria.categoria}
+              </option>
+            );
+          })}
+        </select>
+        <button onClick={(e) => buscar(e)}>Buscar</button>
+      </div>
+    </div>
+
       <main>
         <div className=".recipe-card">
           <div className="grid-container">

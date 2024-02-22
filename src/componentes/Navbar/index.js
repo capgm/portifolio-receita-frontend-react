@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import "./nav.css";
 import { UserContext } from "../../contexts/auth";
 import { useEffect, useContext } from "react";
+import image from "../../imagens/imagem.png";
 
 export default function Navbar() {
   const { user, logout } = useContext(UserContext);
@@ -10,7 +11,9 @@ export default function Navbar() {
     <nav class="navbar">
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">
+            <img className="imagem-logo" src={image} />
+          </Link>
         </li>
         {!user && (
           <>
