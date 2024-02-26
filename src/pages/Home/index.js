@@ -3,19 +3,22 @@ import axios from "axios";
 import "./home.css";
 import { Link } from "react-router-dom";
 import image from "../../imagens/imagem.png";
-import { UserContext } from "../../contexts/auth";
+import { DominioContext } from "../../contexts/dominio";
+import '../../utils/pathEnv';
+import getPath from "../../utils/pathEnv";
+
+
 
 export default function Home() {
   const [campoConsulta, setCampoConsulta] = useState('');
   const [respostaConsulta, setRespostaConsulta] = useState([]);
-  const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState('-1');
-  const {colecaoCategoria} = useContext(UserContext);
+  const {colecaoCategoria, setColecaoCategoria} = useContext(DominioContext);
 
   async function buscar(e) {
     e.preventDefault();
     await axios
-      .get("http://localhost:8080/receitas/consulta/" + categoria + "/" + campoConsulta)
+      .get(getPath() + "/receitas/consulta/" + categoria + "/" + campoConsulta)
       .then((receitas) => {
         if (receitas.data.length > 0) {
           setRespostaConsulta(receitas.data);

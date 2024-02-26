@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "./receita.css";
 import axios from "axios";
 import { UserContext } from "../../contexts/auth";
+import { DominioContext } from "../../contexts/dominio";
+import getPath from "../../utils/pathEnv";
 
 export default function Receita() {
   const [idReceita, setIdReceita] = useState();
@@ -13,13 +15,13 @@ export default function Receita() {
   const [receitas, setReceitas] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [index, setIndex] = useState();
-  const {colecaoCategoria} = useContext(UserContext);
+  const {colecaoCategoria} = useContext(DominioContext);
 
   
   useEffect(() => {
     async function carergarReceitas() {
       await axios
-        .get("http://localhost:8080/receitas")
+        .get(getPath() + "/receitas")
         .then((receitas) => {
           if (receitas.data.length > 0) {
             setReceitas(receitas.data);
@@ -38,7 +40,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarCategorias() {
       await axios
-        .get("http://localhost:8080/categorias")
+        .get(getPath() + "/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -66,7 +68,7 @@ export default function Receita() {
     console.log(objInclusao);
 
     await axios
-      .post("http://localhost:8080/receitas", objInclusao)
+      .post(getPath() + "/receitas", objInclusao)
       .then(() => {
         receitas.push(objInclusao);
         setNome("");
@@ -103,7 +105,7 @@ export default function Receita() {
     console.log(idReceita);
 
     await axios
-      .put("http://localhost:8080/receitas/" + idReceita, objAlteracao)
+      .put(getPath() + "/receitas/" + idReceita, objAlteracao)
       .then(() => {
         const lista = receitas;
 
@@ -123,7 +125,7 @@ export default function Receita() {
     e.preventDefault();
 
     await axios
-      .delete("http://localhost:8080/receitas/" + receita._id)
+      .delete(getPath() + "/receitas/" + receita._id)
       .then(() => {
         const lista = receitas.filter((objeto) => {
           return (

@@ -2,12 +2,12 @@ import { useState, createContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import getPath from "../utils/pathEnv";
 
 export const UserContext = createContext();
 
 export default function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [colecaoCategoria, setColecaoCategoria] = useState([]);
+  const [user, setUser] = useState(null);  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,38 +22,6 @@ export default function UserProvider({ children }) {
     loadUser();
   }, []);
 
-  useEffect(() => {
-    async function carregarCategorias() {
-      axios
-        .get("http://localhost:8080/categorias")
-        .then((categorias) => {
-          if (categorias.data.length > 0) {
-            let list = [];
-            let obj = null;
-
-            for(let i = 0; i < categorias.data.length;i++){
-              obj = new Object();
-             
-              obj.id = categorias.data[i]._id;
-              obj.categoria = categorias.data[i].categoria;
-
-              list.push(obj);
-            }
-
-            console.log(list)
-            setColecaoCategoria(list);
-          } else {
-            setColecaoCategoria([]);
-          }
-        })
-        .catch((erro) => {
-          console.log(erro);
-        });
-    }
-
-    carregarCategorias();
-  }, []);
-
   async function login(usuario) {
     const objSignin = {
       email: usuario.email,
@@ -61,7 +29,7 @@ export default function UserProvider({ children }) {
     };
 
     await axios
-      .post("http://localhost:8080/signin", objSignin)
+      .post(getPath() + "/signin", objSignin)
       .then((user) => {
         console.log(user);
         if (user.data.islogado) {
@@ -71,7 +39,7 @@ export default function UserProvider({ children }) {
           toast.success("Usuário logado");
           navigate("/");
         } else {
-          if (user.data.mensagem != "") {
+          if (user.data.mensagem !== "") {
             toast.error(user.data.mensagem);
           }
           toast.error("Senha ou e-mail, errados!");
@@ -88,7 +56,6 @@ export default function UserProvider({ children }) {
     toast.info("Usuario deslogando...");
   }
 
-  const [idReceita, setIdReceita] = useState(null);
   return (
     <UserContext.Provider
       value={{
@@ -96,8 +63,7 @@ export default function UserProvider({ children }) {
         user: user,
         setUser,
         login,
-        logout,
-        colecaoCategoria,
+        logout
       }}
     >
       {children}

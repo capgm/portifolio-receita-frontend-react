@@ -4,6 +4,8 @@ import "./receita.css";
 import axios from "axios";
 import Home from "../Home";
 import { UserContext } from "../../contexts/auth";
+import { DominioContext } from "../../contexts/dominio";
+import getPath from "../../utils/pathEnv";
 
 export default function DetalharReceita({ match }) {
   const [idReceita, setIdReceita] = useState();
@@ -16,7 +18,7 @@ export default function DetalharReceita({ match }) {
   const [index, setIndex] = useState();
   const [inEdicao, setInEdicao] = useState(false);
   const { id } = useParams();
-  const {colecaoCategoria} = useContext(UserContext);
+  const {colecaoCategoria} = useContext(DominioContext);
 
   useEffect(() => {
     async function carergarReceitas() {
@@ -24,7 +26,7 @@ export default function DetalharReceita({ match }) {
       setIdReceita(idReceita);
 
       await axios
-        .get("http://localhost:8080/receita/" + idReceita)
+        .get(getPath() + "/receita/" + idReceita)
         .then((receita) => {
           console.log(receita);
           if (receita) {

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./signin.css";
-import { UserContext } from '../../contexts/auth'
+import { UserContext } from "../../contexts/auth";
 
 export default function SignIn() {
   const [nome, setNome] = useState();
@@ -10,16 +10,16 @@ export default function SignIn() {
   const [email, setEmail] = useState();
   const [senha, setSenha] = useState();
   const [urlImagemProfile, setUrlImagemProfile] = useState();
-  const {login, user, setUser} = useContext(UserContext)
+  const { login, user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
-  function logar(e){
+  function logar(e) {
     e.preventDefault();
     login({
-      email : email,
-      senha : senha
-    })
+      email: email,
+      senha: senha,
+    });
   }
 
   return (

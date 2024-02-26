@@ -5,6 +5,8 @@ import { UserContext } from "../../contexts/auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import getPath from "../../utils/pathEnv";
+
 
 const schema = z.object({
   nome: z
@@ -34,7 +36,7 @@ export default function SignUp() {
     };
 
     await axios
-      .post("http://localhost:8080/signup", usuario)
+      .post(getPath() + "/signup", usuario)
       .then((resposta) => {
         console.log(resposta);
         if (resposta.data.sucesso) {

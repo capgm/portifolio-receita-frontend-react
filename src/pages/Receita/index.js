@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import getPath from "../../utils/pathEnv";
 
 const schema = z.object({
   nome: z
@@ -38,7 +39,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarReceitas() {
       await axios
-        .get("http://localhost:8080/receitas")
+        .get(getPath() + "/receitas")
         .then((receitas) => {
           if (receitas.data.length > 0) {
             setReceitas(receitas.data);
@@ -57,7 +58,7 @@ export default function Receita() {
   useEffect(() => {
     async function carergarCategorias() {
       await axios
-        .get("http://localhost:8080/categorias")
+        .get(getPath() + "/categorias")
         .then((categorias) => {
           if (categorias.data.length > 0) {
             setCategorias(categorias.data);
@@ -89,7 +90,7 @@ export default function Receita() {
     console.log(objInclusao);
 
     await axios
-      .post("http://localhost:8080/receitas", objInclusao)
+      .post(getPath() + "/receitas", objInclusao)
       .then(() => {
         receitas.push(objInclusao);
         /*

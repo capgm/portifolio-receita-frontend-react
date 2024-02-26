@@ -7,19 +7,20 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Perfil from "../pages/Perfil";
 import Navbar from "../componentes/Navbar";
+import Private from "./Private";
 
 export default function RouterApp() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route exact path="/" Component={Home} />
-        <Route exact path="/receita" Component={Receita} />
-        <Route exact path="/registrar-receita" Component={RegistrarReceita} />
-        <Route exact path="/detalhar-receita/:id" Component={DetalharReceita} />
+        <Route exact path="/" element={<Home/>}/*  Component={Home} *//>
+        <Route exact path="/receita" element={<Private><Receita/></Private>}/>
+        <Route exact path="/registrar-receita" element={<Private><RegistrarReceita/></Private>}/>
+        <Route exact path="/detalhar-receita/:id" element={<Private><DetalharReceita/></Private>}/>
         <Route exact path="/signin" Component={SignIn} />
         <Route exact path="/signup" Component={SignUp} />
-        <Route exact path="/perfil" Component={Perfil} />
+        <Route exact path="/perfil" element={<Private><Perfil/></Private>}/>
       </Routes>
     </>
   );
