@@ -74,3 +74,9 @@ h2 {
 h3 {
     color: #4caf50;
 }
+
+.error{
+    color : red;
+    align-self: flex-start;
+    margin-bottom: 14px;
+  }

@@ -31,6 +31,15 @@ export default function Navbar() {
             <li className="nav-auth" id="profile">
               <Link to="/perfil">Perfil</Link>
             </li>
+            <li className="nav-auth" id="receita">
+              <Link to="/receita">Incluir Receita</Link>
+            </li>
+            <li className="nav-auth" id="lista-receitas">
+              <Link to="/listareceitas">Minhas Receitas</Link>
+            </li>
+            <li className="nav-auth" id="favoritos">
+              <Link to="/favoritos">Favoritos</Link>
+            </li>
             <li onClick={()=>logout()} className="nav-auth" id="logout">
               <Link to="/">Logout</Link>
             </li>

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./receita.css";
 import axios from "axios";
 import Home from "../Home";
+import { UserContext } from "../../contexts/auth";
 
 export default function DetalharReceita({ match }) {
   const [idReceita, setIdReceita] = useState();
@@ -15,6 +16,7 @@ export default function DetalharReceita({ match }) {
   const [index, setIndex] = useState();
   const [inEdicao, setInEdicao] = useState(false);
   const { id } = useParams();
+  const {colecaoCategoria} = useContext(UserContext);
 
   useEffect(() => {
     async function carergarReceitas() {
@@ -28,6 +30,13 @@ export default function DetalharReceita({ match }) {
           if (receita) {
             setReceita(receita.data);
             setNome(receita.data.nome);
+
+            colecaoCategoria.map((categoria)=>{
+              if(categoria.id == receita.data.id_categoria){
+                receita.data.categoria = categoria.categoria;
+              }
+            })
+
             setCategoria(receita.data.categoria);
             setIngredientes(receita.data.ingredientes);
             setModoPreparo(receita.data.ingredientes);

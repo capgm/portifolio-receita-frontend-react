@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./receita.css";
 import axios from "axios";
+import { UserContext } from "../../contexts/auth";
 
 export default function Receita() {
   const [idReceita, setIdReceita] = useState();
@@ -12,7 +13,9 @@ export default function Receita() {
   const [receitas, setReceitas] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [index, setIndex] = useState();
+  const {colecaoCategoria} = useContext(UserContext);
 
+  
   useEffect(() => {
     async function carergarReceitas() {
       await axios
@@ -51,13 +54,13 @@ export default function Receita() {
     carergarCategorias();
   }, []);
 
-  async function incluir() {
+  async function incluir(data) {
     const objInclusao = {
-      nome: nome,
-      categoria: categoria,
-      ingredientes: ingredientes,
-      modoPreparo: modoPreparo,
-      id: idReceita,
+      nome: data.nome,
+      categoria: data.categoria,
+      ingredientes: data.ingredientes,
+      modoPreparo: data.modoPreparo,
+      id: data.idReceita,
     };
 
     console.log(objInclusao);
@@ -169,9 +172,9 @@ export default function Receita() {
             }}
           >
             <option value={-1}>Selecione uma categoria</option>
-            {categorias.map((categoria, index) => {
+            {colecaoCategoria.map((categoria, index) => {
               return (
-                <option key={index} value={categoria.categoria}>
+                <option key={index} value={categoria.id}>
                   {categoria.categoria}
                 </option>
               );

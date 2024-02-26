@@ -1,70 +1,54 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from '../../contexts/auth'
+import { UserContext } from "../../contexts/auth";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  nome: z
+    .string()
+    .min(5, "O nome deve ter no mínimo 5 caracteres.")
+    .max(30, "O nome deve ter no máximo 30 caracteres."),
+  senha: z.string().min(8, "A senha deve ter no minimo 8 caracteres."),
+  senhavalidacao: z.string().min(8, "A senha deve ter no minimo 8 caracteres."),
+  email: z.string().min(5, "O e-mail deve ter no minimo 7 caracteres."),
+});
 
 export default function SignUp() {
-  const [nome, setNome] = useState();
-  const [email, setEmail] = useState();
-  const [senha, setSenha] = useState();
-  const [senhaValidacao, setSenhaValidacao] = useState();
-  const [urlImagemProfile, setUrlImagemProfile] = useState();
-  const {login} = useContext(UserContext)
+  const { login } = useContext(UserContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
-  const navigate = useNavigate();
-
-  const resposeGoogle = async (resposta) => {
-    const {
-      profileObj: { name, email, imageUrl },
-    } = resposta;
-
-    setNome(name);
-    setEmail(email);
-    setUrlImagemProfile(imageUrl);
-
+  async function registrar(data) {
     const usuario = {
-      nome: nome,
-      email: email,
-      senha: senha,
+      nome: data.nome,
+      email: data.email,
+      senha: data.senha,
     };
 
     await axios
       .post("http://localhost:8080/signup", usuario)
       .then((resposta) => {
         console.log(resposta);
-      })
-      .catch((erro) => {
-        console.log(erro);
-      });
-  };
-
-  async function registrar(e) {
-    e.preventDefault();
-    const usuario = {
-      nome: nome,
-      email: email,
-      senha: senha,
-    };
-
-    await axios
-      .post("http://localhost:8080/signup", usuario)
-      //.post("http://localhost:8080/signup", usuario)
-      .then((resposta) => {
-
-        if(resposta.data.erro){
-          toast.error("Já existe um usuário cadastrado com esse e-mail!")
-        }else{
+        if (resposta.data.sucesso) {
           login({
-            email : email,
-            senha : senha
-          })
-          toast.success("Usuário cadastrado com sucesso!")
-          navigate("/")
+            email: data.email,
+            senha: data.senha,
+          });
+          toast.success(resposta.data.msg);
+        } else {
+          toast.error(resposta.data.msg);
         }
       })
       .catch((erro) => {
-        toast.error("Ocorreu algum erro!")
+        toast.error("Ocorreu algum erro!");
         console.log(erro);
       });
   }
@@ -72,52 +56,49 @@ export default function SignUp() {
   return (
     <>
       <div className="login-container">
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit(registrar)}>
           <label name="">Nome:</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
+            id="nome"
+            name="nome"
             placeholder="Seu Nome"
-            required
+            {...register("nome")}
           />
+          {errors.nome && <p className="error">{errors.nome.message}</p>}
 
           <label name="">Email:</label>
           <input
             type="email"
             id="email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="seu.email@example.com"
-            required
+            {...register("email")}
           />
-
+          {errors.email && <p className="error">{errors.email.message}</p>}
           <label name="">Senha:</label>
           <input
             type="password"
             id="senha"
             name="senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
             placeholder="******"
-            required
+            {...register("senha")}
           />
+          {errors.senha && <p className="error">{errors.senha.message}</p>}
 
           <label name="">Digite a senha novamente:</label>
           <input
             type="password"
             id="senhavalidacao"
             name="senhavalidacao"
-            value={senhaValidacao}
-            onChange={(e) => setSenhaValidacao(e.target.value)}
             placeholder="******"
-            required
+            {...register("senhavalidacao")}
           />
+          {errors.senhavalidacao && (
+            <p className="error">{errors.senhavalidacao.message}</p>
+          )}
 
-          <button onClick={(e) => registrar(e)}>Registar</button>
+          <button>Registar</button>
         </form>
       </div>
     </>

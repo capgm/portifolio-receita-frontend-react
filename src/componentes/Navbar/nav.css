@@ -20,6 +20,7 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    height: 20px;
 }
 
 .navbar a:hover {
@@ -28,7 +29,7 @@
 }
 
 .content {
-    padding: 20px;
+    padding: 30px;
 }
 
 /* Estilo para ocultar e exibir itens de autenticação */
@@ -50,3 +51,11 @@
 .logged-out #logout {
     display: none;
 }
+
+.imagem-logo{
+    width: 30px;
+    height: 30px;
+    border: none;
+    top: 0;
+    left: 0;
+  }

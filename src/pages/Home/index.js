@@ -1,38 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import "./home.css";
 import { Link } from "react-router-dom";
 import image from "../../imagens/imagem.png";
+import { UserContext } from "../../contexts/auth";
 
 export default function Home() {
-  const [campoConsulta, setCampoConsulta] = useState();
+  const [campoConsulta, setCampoConsulta] = useState('');
   const [respostaConsulta, setRespostaConsulta] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [categoria, setCategoria] = useState();
-
-  useEffect(() => {
-    async function carregarCategorias() {
-      axios
-        .get("http://localhost:8080/categorias")
-        .then((categorias) => {
-          if (categorias.data.length > 0) {
-            setCategorias(categorias.data);
-          } else {
-            setCategorias([]);
-          }
-        })
-        .catch((erro) => {
-          console.log(erro);
-        });
-    }
-
-    carregarCategorias();
-  }, []);
+  const [categoria, setCategoria] = useState('-1');
+  const {colecaoCategoria} = useContext(UserContext);
 
   async function buscar(e) {
     e.preventDefault();
     await axios
-      .get("http://localhost:8080/receitas/consulta/" + categoria)
+      .get("http://localhost:8080/receitas/consulta/" + categoria + "/" + campoConsulta)
       .then((receitas) => {
         if (receitas.data.length > 0) {
           setRespostaConsulta(receitas.data);
@@ -64,9 +47,9 @@ export default function Home() {
           }}
         >
           <option value={-1}>Selecione uma categoria</option>
-          {categorias.map((categoria, index) => {
+          {colecaoCategoria.map((categoria, index) => {
             return (
-              <option key={index} value={categoria.categoria}>
+              <option key={index} value={categoria.id}>
                 {categoria.categoria}
               </option>
             );

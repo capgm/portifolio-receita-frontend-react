@@ -1,21 +1,39 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import { UserContext } from "../../contexts/auth";
 import "./receita.css";
 import axios from "axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const schema = z.object({
+  nome: z
+    .string()
+    .min(5, "O nome deve ter no inimo 5 caracteres.")
+    .max(30, "O nome deve ter no máximo 30 caracteres."),
+  ingredientes: z
+    .string()
+    .min(5, "O ingrediente deve ter no inimo 20 caracteres."),
+  modoPreparo: z
+    .string()
+    .min(5, "O modo de preparo deve ter no inimo 5 caracteres."),
+  categoria: z.string().min(3, "Selecione uma categoria válida.")
+});
 
 export default function Receita() {
-  const [idReceita, setIdReceita] = useState();
-  const [idUsuario, setIdUsuario] = useState();
-  const [nome, setNome] = useState();
-  const [categoria, setCategoria] = useState();
-  const [idCategoria, setIdCategoria] = useState();
-  const [ingredientes, setIngredientes] = useState();
-  const [modoPreparo, setModoPreparo] = useState();
   const [receitas, setReceitas] = useState([]);
+  const [categoria, setCategoria] = useState();
   const [categorias, setCategorias] = useState([]);
-  const [index, setIndex] = useState();
-  const [inEdicao, setInEdicao] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     async function carergarReceitas() {
@@ -34,7 +52,7 @@ export default function Receita() {
     }
 
     carergarReceitas();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     async function carergarCategorias() {
@@ -55,30 +73,38 @@ export default function Receita() {
     carergarCategorias();
   }, []);
 
-  async function incluir() {
+  async function incluir(data) {
+    
+    console.log(data)
+
     const objInclusao = {
-      nome : nome,
-      id_categoria: categoria,
-      ingredientes: ingredientes,
-      modoPreparo: modoPreparo,
-      id_usuario: idUsuario,
+     nome : data.nome,
+     id_categoria: data.categoria,
+     ingredientes: data.ingredientes,
+     modoPreparo: data.modoPreparo,
+     id_usuario: user._id,
     };
+
+    console.log(user._id);
+    console.log(objInclusao);
 
     await axios
       .post("http://localhost:8080/receitas", objInclusao)
       .then(() => {
         receitas.push(objInclusao);
+        /*
         setCategoria("");
         setIngredientes("");
         setModoPreparo("");
         setReceitas(receitas);
+        */
         toast.success("Receita incluida com sucesso");
       })
       .catch((erro) => {
         console.log(erro);
       });
   }
-
+  /*
   function edit(receita, index, e) {
     e.preventDefault();
     setCategoria(receita._id);
@@ -146,7 +172,7 @@ export default function Receita() {
     setIdReceita("");
     setInEdicao(false);
   }
-
+*/
   return (
     <div>
       <header>
@@ -154,23 +180,18 @@ export default function Receita() {
       </header>
 
       <main>
-        <form id="recipeForm">
-
-        <label for="ingredientes">Nome:</label>
-          <input type="text"
-            id="nome"
-            name="nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-          />
+        <form id="recipeForm" onSubmit={handleSubmit(incluir)}>
+          <label for="ingredientes">Nome:</label>
+          <input type="text" id="nome" name="nome" {...register("nome")} />
+          {errors.nome && <p className="error">{errors.nome.message}</p>}
 
           <label for="categoria">Categoria:</label>
           <select
-            value={categoria}
             onChange={(e) => {
               setCategoria(e.target.value);
             }}
+            id="categoria"
+            {...register("categoria")}
           >
             <option value={-1}>Selecione uma categoria</option>
             {categorias.map((categoria, index) => {
@@ -181,28 +202,36 @@ export default function Receita() {
               );
             })}
           </select>
+          {errors.categoria && (
+            <p className="error">{errors.categoria.message}</p>
+          )}
 
           <label for="ingredientes">Ingredientes:</label>
           <textarea
             id="ingredientes"
             name="ingredientes"
-            rows="4"
-            value={ingredientes}
-            onChange={(e) => setIngredientes(e.target.value)}
-            required
+            rows="6"
+            {...register("ingredientes")}
           ></textarea>
+          {errors.ingredientes && (
+            <p className="error">{errors.ingredientes.message}</p>
+          )}
 
           <label for="modoPreparo">Modo de Preparo:</label>
           <textarea
             id="modoPreparo"
             name="modoPreparo"
-            value={modoPreparo}
-            onChange={(e) => setModoPreparo(e.target.value)}
             rows="6"
-            required
+            {...register("modoPreparo")}
           ></textarea>
+          {errors.modoPreparo && (
+            <p className="error">{errors.modoPreparo.message}</p>
+          )}
+          <button className="button-incluir">
+            Cadastrar Receita
+          </button>
         </form>
-        {inEdicao ? (
+        {/*inEdicao ? (
           <div className="div-button">
             <button
               className="button-incluir"
@@ -221,10 +250,10 @@ export default function Receita() {
           <button className="button-incluir" onClick={() => incluir()}>
             Cadastrar Receita
           </button>
-        )}
+        )*/}
       </main>
 
-      {receitas.map((receita, index) => {
+      {/*receitas.map((receita, index) => {
         return (
           <main key={index}>
             <div>
@@ -273,7 +302,9 @@ export default function Receita() {
             </div>
           </main>
         );
-      })}
+      }
+      )
+      */}
     </div>
   );
 }

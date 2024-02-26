@@ -14,8 +14,8 @@ export default function SignIn() {
 
   const navigate = useNavigate();
 
-  function logar(){
-    console.log("passou")
+  function logar(e){
+    e.preventDefault();
     login({
       email : email,
       senha : senha
@@ -47,7 +47,7 @@ export default function SignIn() {
           required
         />
 
-        <button onClick={() => logar()} type="submit">
+        <button onClick={(e) => logar(e)} type="submit">
           Entrar
         </button>
         <br />
